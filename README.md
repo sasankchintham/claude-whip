@@ -54,4 +54,4 @@ Whip sound: ["Whip 06" by Universfield](https://pixabay.com/sound-effects/film-s
 
 ## License
 
-MIT
+The code is MIT. The whip sound is not: it is covered by the Pixabay Content License (see [LICENSE](LICENSE) and Credits above).
