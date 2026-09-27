@@ -1,6 +1,6 @@
 {
   "name": "claude-whip",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Cracks a whip on your screen when Claude has been thinking for 10 seconds, then every 3 seconds, up to 5 times. Never interrupts Claude.",
   "author": { "name": "Sasank Chintham", "url": "https://github.com/sasankchintham" },
   "homepage": "https://github.com/sasankchintham/claude-whip",

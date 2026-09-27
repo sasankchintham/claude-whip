@@ -24,8 +24,7 @@ SOFTWARE.
 
 Third-party content NOT covered by the MIT license above:
 
-The whip sound (vscode-whip/media/whip.wav and
-gnome-extension/whip-groomer@local/sounds/whip.wav) is "Whip 06" by Universfield,
+The whip sound (gnome-extension/whip-groomer@local/sounds/whip.wav) is "Whip 06" by Universfield,
 https://pixabay.com/sound-effects/film-special-effects-whip-06-487886/
 It is included under the Pixabay Content License (https://pixabay.com/service/license-summary/)
 and remains subject to its terms. It may not be redistributed on its own as a standalone file.

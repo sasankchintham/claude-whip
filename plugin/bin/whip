@@ -1,18 +1,6 @@
 #!/usr/bin/env bash
-# Crack the whip once. On GNOME with the Whip shell extension it cracks anywhere on screen;
-# otherwise it signals the Whip Crack VS Code extension, which cracks in the focused editor.
-set -u
-
-if [ "$(uname -s)" = Linux ] && gdbus call --session --dest org.gnome.Shell \
-    --object-path /org/gnome/Shell/Extensions/WhipGroomer \
-    --method org.gnome.Shell.Extensions.WhipGroomer.Crack >/dev/null 2>&1; then
-  exit 0
-fi
-
-dir="$HOME/.claude-whip"
-mkdir -p -m 700 "$dir"
-signal="$dir/crack"
-# never write through a symlink someone planted
-[ -L "$signal" ] && exit 1
-# the VS Code extension only watches this file's timestamp; the contents don't matter
-: > "$signal"
+# Crack the whip once by asking the Whip GNOME Shell extension to draw it at the mouse.
+# Does nothing (silently) if the extension isn't installed.
+exec gdbus call --session --dest org.gnome.Shell \
+  --object-path /org/gnome/Shell/Extensions/WhipGroomer \
+  --method org.gnome.Shell.Extensions.WhipGroomer.Crack >/dev/null 2>&1
