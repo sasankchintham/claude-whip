@@ -6,7 +6,7 @@
     {
       "name": "claude-whip",
       "source": "./plugin",
-      "description": "Cracks a whip on your screen every 3 seconds once Claude has been thinking for 10 seconds."
+      "description": "Cracks a whip on your screen up to 5 times once Claude has been thinking for 10 seconds."
     }
   ]
 }

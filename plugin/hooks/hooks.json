@@ -1,5 +1,5 @@
 {
-  "description": "Cracks a whip every 3 seconds once Claude has been working for 10 seconds.",
+  "description": "Cracks a whip up to 5 times once Claude has been working for 10 seconds.",
   "hooks": {
     "UserPromptSubmit": [
       { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" start", "timeout": 5 }] }
@@ -7,8 +7,20 @@
     "Stop": [
       { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }] }
     ],
+    "StopFailure": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }] }
+    ],
     "Notification": [
       { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }] }
+    ],
+    "PermissionRequest": [
+      { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }] }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }]
+      }
     ],
     "SessionEnd": [
       { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" stop", "timeout": 5 }] }

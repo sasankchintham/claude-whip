@@ -12,7 +12,7 @@ To change the shortcut, open **Keyboard Shortcuts** and search for `whip.crack`.
 
 ## Crack it when Claude is slow
 
-Install the [claude-whip plugin for Claude Code](https://github.com/sasankchintham/claude-whip) and the whip cracks in your editor every 3 seconds once Claude has been thinking for 10 seconds. It never interrupts or slows down Claude.
+Install the [claude-whip plugin for Claude Code](https://github.com/sasankchintham/claude-whip) and the whip cracks in your editor every 3 seconds (up to 5 times) once Claude has been thinking for 10 seconds. It never interrupts or slows down Claude.
 
 ## Settings
 

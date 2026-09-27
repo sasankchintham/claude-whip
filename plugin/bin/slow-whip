@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Claude Code hook: `slow-whip start` when a prompt is submitted, `slow-whip stop` when Claude
 # finishes. If Claude is still working after CLAUDE_WHIP_DELAY seconds (default 10), the whip
-# cracks, then every CLAUDE_WHIP_INTERVAL seconds (default 3) until Claude finishes.
-# Capped at MAX_CRACKS in case Stop never arrives (e.g. after Esc).
+# cracks, then every CLAUDE_WHIP_INTERVAL seconds (default 3), at most MAX_CRACKS times per task.
+# The cap also covers the cases where no stop hook fires, such as pressing Esc.
 # It prints nothing, so Claude never sees it.
 set -u
 dir="$(cd "$(dirname "$0")" && pwd)"
-MAX_CRACKS=60
+MAX_CRACKS=5
 
 session="$(sed -n 's/.*"session_id" *: *"\([^"]*\)".*/\1/p' | head -n 1 | tr -cd 'A-Za-z0-9-' | cut -c1-64)"
 # XDG_RUNTIME_DIR is private to this user; never fall back to world-writable /tmp.
