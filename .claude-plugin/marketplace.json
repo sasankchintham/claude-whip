@@ -1,0 +1,12 @@
+{
+  "name": "claude-whip",
+  "owner": { "name": "Sasank Chintham", "url": "https://github.com/sasankchintham" },
+  "description": "Fun stress-busters for Claude Code.",
+  "plugins": [
+    {
+      "name": "claude-whip",
+      "source": "./plugin",
+      "description": "Cracks a whip on your screen when Claude has been thinking for more than 10 seconds."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "claude-whip",
+  "version": "0.1.0",
+  "description": "Cracks a whip on your screen when Claude has been thinking for more than 10 seconds. Never interrupts Claude.",
+  "author": { "name": "Sasank Chintham", "url": "https://github.com/sasankchintham" },
+  "homepage": "https://github.com/sasankchintham/claude-whip",
+  "repository": "https://github.com/sasankchintham/claude-whip",
+  "license": "MIT",
+  "keywords": ["fun", "whip", "hooks", "stress-relief"]
+}

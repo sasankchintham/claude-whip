@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.whip-groomer" path="/org/gnome/shell/extensions/whip-groomer/">
+    <key name="whip-shortcut" type="as">
+      <default><![CDATA[['<Super>w']]]></default>
+      <summary>Trigger whip animation</summary>
+    </key>
+  </schema>
+</schemalist>

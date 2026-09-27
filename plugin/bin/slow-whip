@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Claude Code hook: `slow-whip start` when a prompt is submitted, `slow-whip stop` when Claude
+# finishes. If Claude is still working after CLAUDE_WHIP_DELAY seconds (default 10), the whip
+# cracks, then again every 20s, at most 4 times (bounded in case Stop never arrives, e.g. on Esc).
+# It prints nothing, so Claude never sees it.
+set -u
+dir="$(cd "$(dirname "$0")" && pwd)"
+
+session="$(sed -n 's/.*"session_id" *: *"\([^"]*\)".*/\1/p' | head -n 1 | tr -cd 'A-Za-z0-9-' | cut -c1-64)"
+# XDG_RUNTIME_DIR is private to this user; never fall back to world-writable /tmp.
+state="${XDG_RUNTIME_DIR:-$HOME/.cache}/claude-whip"
+mkdir -p -m 700 "$state"
+pidfile="$state/${session:-default}.pid"
+
+if [ -f "$pidfile" ] && [ ! -L "$pidfile" ]; then
+  pid="$(tr -cd '0-9' < "$pidfile")"
+  # only kill it if it is still our own timer loop, not some unrelated reused PID
+  if [ -n "$pid" ] && grep -q 'claude-whip-timer' "/proc/$pid/cmdline" 2>/dev/null; then
+    kill "$pid" 2>/dev/null
+  fi
+  rm -f "$pidfile"
+fi
+
+[ "${1:-}" = start ] || exit 0
+
+delay="${CLAUDE_WHIP_DELAY:-10}"
+case "$delay" in ''|*[!0-9]*) delay=10 ;; esac
+
+# arguments are passed positionally, never spliced into the script text
+nohup bash -c 'sleep "$2"; for i in 1 2 3 4; do "$1/whip"; sleep 20; done; rm -f "$3"' \
+  claude-whip-timer "$dir" "$delay" "$pidfile" </dev/null >/dev/null 2>&1 &
+echo $! > "$pidfile"

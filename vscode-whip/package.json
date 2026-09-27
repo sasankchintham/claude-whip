@@ -1,0 +1,47 @@
+{
+  "name": "whip",
+  "displayName": "Whip Crack",
+  "description": "Crack a whip at your cursor. A tiny stress-buster for developers.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/sasankchintham/claude-whip" },
+  "homepage": "https://github.com/sasankchintham/claude-whip/tree/main/vscode-whip",
+  "icon": "media/icon.png",
+  "keywords": ["fun", "stress", "whip", "animation", "productivity"],
+  "galleryBanner": { "color": "#1e1e1e", "theme": "dark" },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Other"],
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "extensionKind": ["ui"],
+  "capabilities": {
+    "untrustedWorkspaces": { "supported": true },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "commands": [
+      { "command": "whip.crack", "title": "Crack the Whip", "category": "Whip" }
+    ],
+    "keybindings": [
+      { "command": "whip.crack", "key": "ctrl+alt+w", "when": "editorTextFocus" }
+    ],
+    "configuration": {
+      "title": "Whip",
+      "properties": {
+        "whip.sound": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play the whip-crack sound."
+        },
+        "whip.claudeCode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Crack the whip when the claude-whip Claude Code plugin says Claude is taking a while."
+        }
+      }
+    }
+  }
+}

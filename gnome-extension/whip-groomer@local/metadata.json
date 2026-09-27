@@ -1,0 +1,8 @@
+{
+  "uuid": "whip-groomer@local",
+  "name": "Whip & Groomer",
+  "description": "Global hotkey that cracks a whip at the mouse cursor.",
+  "shell-version": ["46"],
+  "settings-schema": "org.gnome.shell.extensions.whip-groomer",
+  "url": ""
+}
