@@ -1,5 +1,5 @@
 {
-  "description": "Cracks a whip when Claude has been working for more than 10 seconds.",
+  "description": "Cracks a whip every 3 seconds once Claude has been working for 10 seconds.",
   "hooks": {
     "UserPromptSubmit": [
       { "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/slow-whip\" start", "timeout": 5 }] }

@@ -6,7 +6,7 @@ It comes in three pieces; use whichever fit your setup.
 
 | Piece | What it does | Works on |
 |---|---|---|
-| **Claude Code plugin** | Cracks the whip when Claude has been working for more than 10 seconds | Anywhere Claude Code runs |
+| **Claude Code plugin** | Once Claude has been working for 10 seconds, cracks the whip every 3 seconds until it finishes | Anywhere Claude Code runs |
 | **VS Code extension** ("Whip Crack") | Draws the whip at your cursor in the editor; `Ctrl+Alt+W` or the plugin triggers it | macOS, Windows, Linux |
 | **GNOME extension** | Draws the whip anywhere on screen at your mouse; `Super+W` or the plugin triggers it | Linux with GNOME 46 |
 
@@ -34,12 +34,15 @@ Then log out and back in once.
 
 ## Settings
 
-- `CLAUDE_WHIP_DELAY`: seconds before the first crack (default `10`). Set it in the `env` section of `~/.claude/settings.json`.
+- `CLAUDE_WHIP_DELAY`: seconds before the first crack (default `10`).
+- `CLAUDE_WHIP_INTERVAL`: seconds between cracks after that (default `3`).
+
+Set them in the `env` section of `~/.claude/settings.json`, for example `"env": {"CLAUDE_WHIP_INTERVAL": "5"}`.
 - VS Code: `whip.sound` and `whip.claudeCode` in Settings.
 
 ## It never disturbs Claude
 
-The plugin's hooks print nothing, return immediately, and run a small background timer that stops as soon as Claude finishes, asks for permission, or the session ends. Claude never sees any of it. After at most 4 cracks the timer gives up on its own, in case a stop event is missed.
+The plugin's hooks print nothing, return immediately, and run a small background timer that stops as soon as Claude finishes, asks for permission, or the session ends. Claude never sees any of it. After at most 60 cracks the timer gives up on its own, in case a stop event is missed.
 
 ## Security
 

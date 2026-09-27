@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Claude Code hook: `slow-whip start` when a prompt is submitted, `slow-whip stop` when Claude
 # finishes. If Claude is still working after CLAUDE_WHIP_DELAY seconds (default 10), the whip
-# cracks, then again every 20s, at most 4 times (bounded in case Stop never arrives, e.g. on Esc).
+# cracks, then every CLAUDE_WHIP_INTERVAL seconds (default 3) until Claude finishes.
+# Capped at MAX_CRACKS in case Stop never arrives (e.g. after Esc).
 # It prints nothing, so Claude never sees it.
 set -u
 dir="$(cd "$(dirname "$0")" && pwd)"
+MAX_CRACKS=60
 
 session="$(sed -n 's/.*"session_id" *: *"\([^"]*\)".*/\1/p' | head -n 1 | tr -cd 'A-Za-z0-9-' | cut -c1-64)"
 # XDG_RUNTIME_DIR is private to this user; never fall back to world-writable /tmp.
@@ -15,7 +17,8 @@ pidfile="$state/${session:-default}.pid"
 if [ -f "$pidfile" ] && [ ! -L "$pidfile" ]; then
   pid="$(tr -cd '0-9' < "$pidfile")"
   # only kill it if it is still our own timer loop, not some unrelated reused PID
-  if [ -n "$pid" ] && grep -q 'claude-whip-timer' "/proc/$pid/cmdline" 2>/dev/null; then
+  # (ps works on both Linux and macOS, unlike /proc)
+  if [ -n "$pid" ] && ps -p "$pid" -o command= 2>/dev/null | grep -q 'claude-whip-timer'; then
     kill "$pid" 2>/dev/null
   fi
   rm -f "$pidfile"
@@ -23,10 +26,12 @@ fi
 
 [ "${1:-}" = start ] || exit 0
 
-delay="${CLAUDE_WHIP_DELAY:-10}"
-case "$delay" in ''|*[!0-9]*) delay=10 ;; esac
+number_or() { case "$1" in ''|*[!0-9]*) echo "$2" ;; *) echo "$1" ;; esac; }
+delay="$(number_or "${CLAUDE_WHIP_DELAY:-}" 10)"
+interval="$(number_or "${CLAUDE_WHIP_INTERVAL:-}" 3)"
+[ "$interval" -ge 1 ] || interval=1
 
 # arguments are passed positionally, never spliced into the script text
-nohup bash -c 'sleep "$2"; for i in 1 2 3 4; do "$1/whip"; sleep 20; done; rm -f "$3"' \
-  claude-whip-timer "$dir" "$delay" "$pidfile" </dev/null >/dev/null 2>&1 &
+nohup bash -c 'sleep "$2"; i=0; while [ "$i" -lt "$4" ]; do "$1/whip"; i=$((i + 1)); sleep "$3"; done; rm -f "$5"' \
+  claude-whip-timer "$dir" "$delay" "$interval" "$MAX_CRACKS" "$pidfile" </dev/null >/dev/null 2>&1 &
 echo $! > "$pidfile"
